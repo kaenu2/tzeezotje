@@ -1,0 +1,152 @@
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	height: 100%;
+	z-index: 1001;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.5s ease 0s;
+	&._active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+.modal-form {
+	&__dialog {
+		position: absolute;
+		background-color: #fff;
+		max-width: 600px;
+		width: 100%;
+		max-height: 600px;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 100%;
+		padding: 20px;
+		border-radius: 5px;
+		opacity: 0;
+		visibility: hidden;
+		-webkit-box-shadow: 0px 0px 17px -2px rgba(255, 255, 255, 0.5);
+		-moz-box-shadow: 0px 0px 17px -2px rgba(255, 255, 255, 0.5);
+		box-shadow: 0px 0px 17px -2px rgba(255, 255, 255, 0.5);
+		overflow: auto;
+		z-index: 1002;
+		@media (max-width: 600px) {
+			min-height: 100%;
+		}
+		&._active {
+			animation: dialogAnim 0.5s forwards;
+			visibility: visible;
+		}
+		h1 {
+			font-size: 48px;
+			font-weight: 700;
+			line-height: 183.333%;
+			padding-bottom: 30px;
+			@media (max-width: 600px) {
+				font-size: 36px;
+				margin-top: 30px;
+			}
+			@media (max-width: 425px) {
+				font-size: 30px;
+				line-height: 103.333%;
+			}
+		}
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+	}
+
+	&__group {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		@media (max-width: 600px) {
+			flex-direction: column;
+		}
+		.modal-form__input {
+			flex: 0 1 47%;
+			@media (max-width: 600px) {
+				flex: 0 1 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	&__input {
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+		label {
+			line-height: 200%;
+		}
+		input,
+		textarea {
+			width: 100%;
+			line-height: 150%;
+			padding: 15px;
+			border: 1px solid #ccc;
+			&::placeholder {
+				color: #808080;
+			}
+		}
+		textarea {
+			height: 125px;
+			resize: none;
+		}
+	}
+
+	&__btn {
+		margin-top: 20px;
+		height: 100%;
+		max-height: 70px;
+		min-height: 70px;
+	}
+	&__close {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		width: 25px;
+		height: 25px;
+		cursor: pointer;
+		transform: rotate(0deg) scale(1);
+		transition: transform 0.3s ease 0s;
+		&:hover {
+			transform: rotate(-90deg) scale(1.1);
+		}
+		& span {
+			&::before,
+			&::after {
+				content: '';
+				position: absolute;
+				top: 40%;
+				left: 15%;
+				width: 20px;
+				height: 2px;
+				background-color: #000;
+			}
+			&::before {
+				transform: rotate(45deg);
+			}
+			&::after {
+				transform: rotate(-45deg);
+			}
+		}
+	}
+}
+
+@keyframes dialogAnim {
+	0% {
+		top: -100%;
+		opacity: 0;
+	}
+	100% {
+		top: 50%;
+		opacity: 1;
+	}
+}
