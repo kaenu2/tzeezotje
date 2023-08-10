@@ -67,18 +67,7 @@ const offset = el => {
 	return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
 };
 
-// const selectors = [
-// 	itemRecordingSelectors,
-// 	imgRecordingSelectors,
-// 	quotesSelector
-// ];
-
 const animOnScroll = (selectors, replay = false) => {
-	// if (!selectors.length) {
-	// 	console.log('1');
-	// 	return;
-	// }
-	// selectors.forEach(selector => {
 	const selectorHeight = selectors.offsetHeight;
 	const selectorOffset = offset(selectors).top;
 	const selectorStart = 2;
@@ -97,20 +86,58 @@ const animOnScroll = (selectors, replay = false) => {
 			selectors.classList.remove('_anim');
 		}
 	}
-	// });
 };
 
 window.addEventListener('scroll', e => {
 	animOnScroll(quotesSelector);
 	let time = 0.3;
+	let time2 = 0.5;
 	itemRecordingSelectors.forEach(elem => {
 		elem.style.animationDelay = `${time}s`;
 		time += 0.3;
 		animOnScroll(elem);
 	});
 	imgRecordingSelectors.forEach(elem => {
-		elem.style.animationDelay = `${time}s`;
-		time += 0.3;
+		elem.style.animationDelay = `${time2}s`;
+		time2 += 0.3;
 		animOnScroll(elem);
 	});
+});
+
+const formSelector = document.querySelector('.modal-form__form');
+const inptutNameSelectors = document.getElementById('name');
+const inptutEmailSelectors = document.getElementById('email');
+const inptutRequestSelectors = document.getElementById('request');
+
+formSelector.addEventListener('submit', e => {
+	e.preventDefault();
+	const request = new XMLHttpRequest();
+
+	const body = {
+		name: inptutNameSelectors.value,
+		email: inptutEmailSelectors.value,
+		request: inptutRequestSelectors.value
+	};
+
+	console.log(body);
+
+	const url = 'https://jsonplaceholder.typicode.com/posts';
+	function checkString(str) {
+		return str.length ? +'&request=' + body.request : '';
+	}
+	const params =
+		'name=' + body.name + '&email=' + body.email + checkString(body.request);
+
+	request.responseType = 'json';
+	request.open('POST', url);
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.addEventListener('readystatechange', () => {
+		if (request.status === 200 || request.status === 201) {
+			console.log(request.response);
+			inptutNameSelectors.value = '';
+			inptutEmailSelectors.value = '';
+			inptutRequestSelectors.value = '';
+		}
+	});
+	request.send(params);
 });
